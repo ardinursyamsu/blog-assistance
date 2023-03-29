@@ -1,22 +1,44 @@
 export default function Navbar() {
+  const dataTheme = "business";
   return (
-    <nav className="bg-orange-400 drop-shadow-xl">
-      <div className="text-lg text-gray-100">
-        <div className="flex justify-items-end mb-2 pt-2 pb-8 pl-8 pr-8 mb-8 ">
-          <div className="font-normal hover:font-bold">
-            <a href="/">Home</a>
-          </div>
-          <div className="grow"></div>
-          <div className="flex column space-x-4">
-            <div className="font-normal hover:font-bold">
-              <a href="/admin">Admin</a>
-            </div>
-            <div className="font-normal hover:font-bold">
-              <a href="#">Login</a>
-            </div>
-          </div>
-        </div>
+    <div data-theme={dataTheme} className="navbar bg-base-100">
+      <div className="flex-1">
+        <a href="/" className="btn btn-ghost normal-case text-xl">
+          HOME
+        </a>
       </div>
-    </nav>
+      <div className="flex-none">
+        <ul className="menu menu-horizontal px-1">
+          <li>
+            <a href="/admin">Admin</a>
+          </li>{/*
+          <li tabIndex={0}>
+            <a>
+              Parent
+              <svg
+                className="fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+              </svg>
+            </a>
+            <ul className="p-2 bg-base-100">
+              <li>
+                <a>Submenu 1</a>
+              </li>
+              <li>
+                <a>Submenu 2</a>
+              </li>
+            </ul>
+          </li>*/}
+          <li>
+            <a>Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 }

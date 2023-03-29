@@ -9,7 +9,7 @@ export const action = async ({ request }: ActionArgs) => {
   const slug = formData.get("slug");
   const image = formData.get("image");
 
-  await createCategory({ title, slug, image})
+  await createCategory({ title, slug, image });
 
   return redirect("/admin");
 };
@@ -19,9 +19,9 @@ export default function NewCategory() {
     "text-orange-400 hover:text-white border border-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-orange-300 dark:text-orange-300 dark:hover:text-white dark:hover:bg-orange-400 dark:focus:ring-orange-900";
 
   return (
-    <Form method="post">
+    <Form className="px-12 py-6" method="post">
       <div className="space-y-8">
-        <div className="text-2xl font-medium text-center border-b-2 p-2">
+        <div className="text-3xl font-serif font-medium text-center border-b-2 p-2">
           Create New Category
         </div>
         <div className="w-full">
@@ -71,7 +71,11 @@ export default function NewCategory() {
         </div>
         <div className="flex column">
           <div className="grow"></div>
-          <button type="submit" value="submit" className={decorator}>
+          <button
+            type="submit"
+            value="submit"
+            className="bg-orange-400 text-white hover:text-white border border-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-orange-300 dark:text-orange-300 dark:hover:text-white dark:hover:bg-orange-400 dark:focus:ring-orange-900"
+          >
             Create
           </button>
         </div>

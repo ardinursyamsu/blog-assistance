@@ -1,27 +1,32 @@
-import { useState } from "react";
-import { getCategories } from "~/models/category.server";
 import { json } from "@remix-run/node";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import { getPostsByCategory } from "~/models/post.server";
-import type { ActionArgs } from "@remix-run/node";
 import { marked } from "marked";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { getCategories } from "~/models/category.server";
+import type { ActionArgs } from "@remix-run/node";
 
+import Category from "~/components/category";
+import Main from "~/components/main";
+import Footer from "~/components/footer";
 import Navbar from "~/components/navbar";
-import MainContainer from "~/components/maincontainer";
+import { getPostsByCategory } from "~/models/post.server";
+import { useState } from "react";
+import Subcategory from "~/components/subcategory";
 
-const text = `
-The long-term purpose of this project is to make an AI assistance in programming and whatsoever
-however this is just the prototype. Need more improvement in the future.
+const content_title = "Welcome to Blog-Assistance";
+const content = `
+The long-term purpose of this project is to make an AI assistance in programming and whatsoever however this is just the prototype. Need more improvement in the future.
 
-#### To Do:
-- Fix the flow of root page. They should display 1 button and 2 button in different manner
-- Tidy up the function like better user experience
-- Tidy up the layout. This is a mess
-
-#### Bug:
-- Category selected doesn't select the corresponding post
+### To Do:
+- in show all post in admin, should group by categories
+- Add icon. Candidate is watari
+### Bug:
 `;
 
+const subcategory = (
+  <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 w-full">
+    Subcategory
+  </button>
+);
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
@@ -44,68 +49,56 @@ export default function Index() {
   const actionData = useActionData<typeof action>();
 
   var posts: any = [];
+  var hidden = "hidden";
 
   if (typeof actionData !== "undefined") {
     posts = actionData.posts;
+    hidden = "";
   }
 
-  const [markdown, setMarkdown] = useState<string>(text);
-  const [title, setTitle] = useState<string>("Welcome to Blog-Assistance");
+  const [markdown, setMarkdown] = useState<string>(content);
+  const [title, setTitle] = useState<string>(content_title);
 
-  const handleCategories = (e: any, markdown: string, title: string) => {
+  const handleClick = (e: any, markdown: any, title: any) => {
     setMarkdown(markdown);
     setTitle(title);
   };
 
   return (
-    <MainContainer>
+    <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex flex-column">
-        <div className="w-1/6">
-          <Form method="post">
-            {categories.map((category) => (
-              <button
-                key={category.slug}
-                className="text-blue-700 w-full hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-small rounded-lg text-sm px-5 py-2 text-left mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-                type="submit"
-                name="category-slug"
-                value={category.slug}
-              >
-                {category.title}
-              </button>
+      <Main>
+        {/* The left side */}
+        <div className="hidden lg:flex flex flex-row w-2/5 text-center bg-gray-100 p-4 rounded-lg">
+          <div className="w-full m-1">
+            <Form method="post">
+              {categories.map((category) => (
+                <Category
+                  title={category.title}
+                  image={category.image}
+                  slug={category.slug}
+                />
+              ))}
+            </Form>
+          </div>
+          <div className={`${hidden} w-full m-1`}>
+            {posts.map((post: any) => (
+              <Subcategory data={post} onclick={handleClick} />
             ))}
-          </Form>
-        </div>
-        <div className="w-1/6 mx-2">
-          {posts.map((post: any) => (
-            <button
-              key={post.slug}
-              className="text-blue-700 w-full hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-small rounded-lg text-sm px-5 py-2 text-left mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-              type="submit"
-              name="category-slug"
-              value={post.markdown}
-              onClick={(e) => handleCategories(e, post.markdown, post.title)}
-            >
-              {post.title}
-            </button>
-          ))}
-        </div>
-        <div className="w-4/6">
-          <div className="grid row-2 w-full">
-            <div className="text-center text-4xl w-full py-4 px-12">
-              <div className="text-2xl font-medium text-center border-b-2 p-2">
-                {title}
-              </div>
-            </div>
-            <div className="py-4 px-12 text-justify">
-              <div
-                className="prose prose-stone max-w-none"
-                dangerouslySetInnerHTML={{ __html: marked(markdown) }}
-              />
-            </div>
           </div>
         </div>
-      </div>
-    </MainContainer>
+        {/* The right side */}
+        <div className="text-black sm:w-full lg:w-3/5">
+          <div className="font-serif text-4xl w-full px-12 mb-12">{title}</div>
+          <article className="prose max-w-none px-12">
+            <div
+              className="text-black text-justify"
+              dangerouslySetInnerHTML={{ __html: marked(markdown) }}
+            />
+          </article>
+        </div>
+      </Main>
+      <Footer />
+    </div>
   );
 }

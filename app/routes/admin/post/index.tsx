@@ -9,7 +9,7 @@ export const loader = async () => {
 export default function UpdatePost() {
   const { posts } = useLoaderData<typeof loader>();
   return (
-    <div>
+    <div className="px-12 py-6">
       {posts.map((post) => (
         <Link to={post.slug}>
           <button

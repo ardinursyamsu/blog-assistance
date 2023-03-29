@@ -10,7 +10,7 @@ export const loader = async () => {
 export default function Categories() {
   const { categories } = useLoaderData<typeof loader>();
   return (
-    <div>
+    <div className="px-12 py-6">
       {categories.map((category) => (
         <ButtonCategory
           slug={category.slug}

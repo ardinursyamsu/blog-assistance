@@ -1,40 +1,45 @@
-import { json } from "@remix-run/node";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import MainContainer from "~/components/maincontainer";
+import { Link, Outlet } from "@remix-run/react";
+
+import Footer from "~/components/footer";
+import Main from "~/components/main";
 import Navbar from "~/components/navbar";
-import { getCategories } from "~/models/category.server";
 
-export const loader = async () => {
-  return json({ categories: await getCategories() });
-};
-
-export default function Body() {
-  const { categories } = useLoaderData<typeof loader>();
-
-  const decorator =
-    "text-orange-400 hover:text-white border border-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-orange-300 dark:text-orange-300 dark:hover:text-white dark:hover:bg-orange-400 dark:focus:ring-orange-900 w-4/5";
+export default function Test() {
   return (
-    <MainContainer>
+    <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex flex-column mx-12">
-        <div className="w-1/5">
-          <Link to="./post">
-            <button className={decorator}>All Posts</button>
-          </Link>
-          <Link to="./category">
-            <button className={decorator}>All Categories</button>
-          </Link>
-          <Link to="./new-post">
-            <button className={decorator}>Create Post</button>
-          </Link>
-          <Link to="./new-category">
-            <button className={decorator}>Create Category</button>
-          </Link>
+      <Main>
+        {/* The left side */}
+        <div className="hidden lg:flex flex flex-column w-1/5 text-center bg-gray-100 p-4 rounded-lg">
+          <div className="w-full m-1">
+            <Link to="/admin/post">
+              <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex text-left mr-2 mb-2 w-full">
+                All Posts
+              </button>
+            </Link>
+            <Link to="/admin/category">
+              <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex text-left mr-2 mb-2 w-full">
+                All Categories
+              </button>
+            </Link>
+            <Link to="/admin/new-post">
+              <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex text-left mr-2 mb-2 w-full">
+                Create Post
+              </button>
+            </Link>
+            <Link to="/admin/new-category">
+              <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex text-left mr-2 mb-2 w-full">
+                Create Category
+              </button>
+            </Link>
+          </div>
         </div>
-        <div className="w-4/5">
+        {/* The right side */}
+        <div className="text-black sm:w-full lg:w-4/5">
           <Outlet />
         </div>
-      </div>
-    </MainContainer>
+      </Main>
+      <Footer />
+    </div>
   );
 }

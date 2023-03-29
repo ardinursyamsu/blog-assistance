@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { getCategories } from "~/models/category.server";
 import type { ActionArgs } from "@remix-run/node";
 import { createPost } from "~/models/post.server";
@@ -25,9 +25,9 @@ export const loader = async () => {
 export default function CreatePost() {
   const { categories } = useLoaderData<typeof loader>();
   return (
-    <form method="post">
+    <form className="px-12 py-6" method="post">
       <div className="space-y-8">
-        <div className="text-2xl font-medium text-center border-b-2 p-2">
+        <div className="text-3xl font-serif font-medium text-center border-b-2 p-2">
           Create New Post
         </div>
         <div className="">
@@ -90,7 +90,7 @@ export default function CreatePost() {
             name="content"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Category Name"
-            rows={40}
+            rows={20}
             required
           ></textarea>
         </div>
@@ -100,7 +100,7 @@ export default function CreatePost() {
           <button
             type="submit"
             value="create"
-            className="text-orange-400 hover:text-white border border-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-orange-300 dark:text-orange-300 dark:hover:text-white dark:hover:bg-orange-400 dark:focus:ring-orange-900"
+            className="bg-orange-400 text-white hover:text-white border border-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-orange-300 dark:text-orange-300 dark:hover:text-white dark:hover:bg-orange-400 dark:focus:ring-orange-900"
           >
             Create
           </button>

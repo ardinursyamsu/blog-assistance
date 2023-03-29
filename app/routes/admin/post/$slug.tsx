@@ -1,8 +1,8 @@
 import { json, LoaderArgs, redirect } from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { getCategories } from "~/models/category.server";
 import type { ActionArgs } from "@remix-run/node";
-import { createPost, getPost, updatePost } from "~/models/post.server";
+import { getPost, updatePost } from "~/models/post.server";
 import invariant from "tiny-invariant";
 import { useEffect, useState } from "react";
 
@@ -53,10 +53,10 @@ export default function UpdatePost() {
   }, [post.slug]);
 
   return (
-    <form method="post">
+    <form className="px-12 py-6" method="post">
       <input type="hidden" name="initial-slug" value={initialSlug} />
       <div className="space-y-8">
-        <div className="text-2xl font-medium text-center border-b-2 p-2">
+        <div className="text-3xl font-serif font-medium text-center border-b-2 p-2">
           {title}
         </div>
         <div className="">
@@ -124,7 +124,7 @@ export default function UpdatePost() {
             name="content"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Category Name"
-            rows={40}
+            rows={20}
             value={markdown}
             onChange={(e) => setMarkdown(e.target.value)}
           ></textarea>
@@ -135,14 +135,14 @@ export default function UpdatePost() {
           <button
             type="submit"
             value="delete"
-            className="text-red-400 hover:text-white border border-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-300 dark:text-red-300 dark:hover:text-white dark:hover:bg-red-400 dark:focus:ring-red-900"
+            className="bg-red-400 text-white hover:text-white border border-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-300 dark:text-red-300 dark:hover:text-white dark:hover:bg-red-400 dark:focus:ring-red-900"
           >
             Delete
           </button>
           <button
             type="submit"
             value="create"
-            className="text-blue-400 hover:text-white border border-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-300 dark:text-blue-300 dark:hover:text-white dark:hover:bg-blue-400 dark:focus:ring-blue-900"
+            className="bg-blue-400 text-white hover:text-medium border border-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-300 dark:text-blue-300 dark:hover:text-white dark:hover:bg-blue-400 dark:focus:ring-blue-900"
           >
             Update
           </button>
