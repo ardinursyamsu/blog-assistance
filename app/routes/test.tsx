@@ -1,44 +1,27 @@
-import { Link, Outlet } from "@remix-run/react";
 
-import Footer from "~/components/footer";
-import Main from "~/components/main";
-import Navbar from "~/components/navbar";
 
-export default function Test() {
+import { json } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
+import { getPosts } from "~/models/post.server";
+
+export const loader = async () => {
+  return json({ posts: await getPosts() });
+};
+
+export default function UpdatePost() {
+  const { posts } = useLoaderData<typeof loader>();
   return (
-    <div className="flex flex-col h-screen">
-      <Navbar />
-      <Main>
-        {/* The left side */}
-        <div className="hidden lg:flex flex flex-column w-1/5 text-center bg-gray-100 p-4 rounded-lg">
-          <div className="w-full m-1">
-            <Link to="/admin/post">
-              <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex text-left mr-2 mb-2 w-full">
-                All Posts
-              </button>
-            </Link>
-            <Link to="/admin/category">
-              <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex text-left mr-2 mb-2 w-full">
-                All Categories
-              </button>
-            </Link>
-            <Link to="/admin/new-post">
-              <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex text-left mr-2 mb-2 w-full">
-                Create Post
-              </button>
-            </Link>
-            <Link to="/admin/new-category">
-              <button className="text-gray-900 bg-amber-300 hover:bg-amber-400 focus:ring-2 focus:outline-none focus:ring-amber-400 focus:bg-amber-400 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex text-left mr-2 mb-2 w-full">
-                Create Category
-              </button>
-            </Link>
-          </div>
-        </div>
-        {/* The right side */}
-        <div className="text-black sm:w-full lg:w-4/5">Content</div>
-      </Main>
-        <Outlet />
-      <Footer />
+    <div className="px-12 py-6">
+      {posts.map((post) => (
+        <Link to={post.slug}>
+          <button
+            key={post.slug}
+            className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-small rounded-lg text-sm px-5 py-2 text-left mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+          >
+            {post.title}
+          </button>
+        </Link>
+      ))}
     </div>
   );
 }

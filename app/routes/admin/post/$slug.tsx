@@ -14,9 +14,15 @@ export const action = async ({ request }: ActionArgs) => {
   const category_slug: any = formData.get("category_slug");
   const markdown: any = formData.get("content");
   const initialSlug: any = formData.get("initial-slug");
+  const submitButton = formData.get("submit");
+
+  if (submitButton === "delete") {
+    console.log("User press delete\n");
+    return redirect("/admin/post");
+  }
 
   await updatePost(initialSlug, { title, slug, category_slug, markdown });
-  return redirect("/admin");
+  return redirect("/admin/post");
 };
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -103,12 +109,10 @@ export default function UpdatePost() {
             <select
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               name="category_slug"
+              defaultValue={post.category_slug}
             >
-              <option value={selectedCategory.slug} selected>
-                {selectedCategory.title}
-              </option>
-              {unselectedCategories.map((category) => (
-                <option value={category.slug}>{category.title}</option>
+              {categories.map((category) => (
+                <option key={category.slug} value={category.slug}>{category.title}</option>
               ))}
             </select>
           </div>
@@ -134,6 +138,7 @@ export default function UpdatePost() {
           <div className="grow"></div>
           <button
             type="submit"
+            name="submit"
             value="delete"
             className="bg-red-400 text-white hover:text-white border border-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-300 dark:text-red-300 dark:hover:text-white dark:hover:bg-red-400 dark:focus:ring-red-900"
           >
@@ -141,6 +146,7 @@ export default function UpdatePost() {
           </button>
           <button
             type="submit"
+            name="submit"
             value="create"
             className="bg-blue-400 text-white hover:text-medium border border-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-300 dark:text-blue-300 dark:hover:text-white dark:hover:bg-blue-400 dark:focus:ring-blue-900"
           >

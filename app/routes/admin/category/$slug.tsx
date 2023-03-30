@@ -9,10 +9,17 @@ import { useEffect, useState } from "react";
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
 
-  const title = formData.get("category_name");
+  const title: any = formData.get("category_name");
   const slug = formData.get("slug");
   const image = formData.get("image");
   const initialSlug = formData.get("initial-slug");
+  const submitButton = formData.get("submit");
+
+  if (submitButton === "delete") {
+    
+    console.log("User press delete\n");
+    return redirect("/admin/category");
+  }
 
   invariant(typeof title === "string", "title must be a string");
   invariant(typeof slug === "string", "title must be a string");
@@ -21,7 +28,7 @@ export const action = async ({ request }: ActionArgs) => {
 
   await updateCategory(initialSlug, { title, slug, image });
 
-  return redirect("/admin");
+  return redirect("/admin/category");
 };
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -113,6 +120,7 @@ export default function UpdateCategory() {
         <div className="flex column">
           <div className="grow"></div>
           <button
+            name="submit"
             type="submit"
             value="delete"
             className="bg-red-400 text-white hover:text-white border border-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-300 dark:text-red-300 dark:hover:text-white dark:hover:bg-red-400 dark:focus:ring-red-900"
@@ -120,6 +128,7 @@ export default function UpdateCategory() {
             Delete
           </button>
           <button
+            name="submit"
             type="submit"
             value="create"
             className="bg-blue-400 text-white hover:text-white border border-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-300 dark:text-blue-300 dark:hover:text-white dark:hover:bg-blue-400 dark:focus:ring-blue-900"

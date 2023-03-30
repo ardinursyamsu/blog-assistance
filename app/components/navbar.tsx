@@ -4,14 +4,15 @@ export default function Navbar() {
     <div data-theme={dataTheme} className="navbar bg-base-100">
       <div className="flex-1">
         <a href="/" className="btn btn-ghost normal-case text-xl">
-          HOME
+          <img src="/logo.png" width="36" />{/*<div className="mx-2">Home</div>*/}
         </a>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
             <a href="/admin">Admin</a>
-          </li>{/*
+          </li>
+          {/*
           <li tabIndex={0}>
             <a>
               Parent

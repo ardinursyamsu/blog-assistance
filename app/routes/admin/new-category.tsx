@@ -11,7 +11,7 @@ export const action = async ({ request }: ActionArgs) => {
 
   await createCategory({ title, slug, image });
 
-  return redirect("/admin");
+  return redirect("/admin/category");
 };
 
 export default function NewCategory() {

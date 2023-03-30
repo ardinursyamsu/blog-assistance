@@ -13,7 +13,7 @@ export const action = async ({ request }: ActionArgs) => {
   const markdown = formData.get("content");
 
   await createPost({ title, slug, category_slug, markdown });
-  return redirect("/admin");
+  return redirect("/admin/post");
 };
 
 export const loader = async () => {

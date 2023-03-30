@@ -17,8 +17,7 @@ const content = `
 The long-term purpose of this project is to make an AI assistance in programming and whatsoever however this is just the prototype. Need more improvement in the future.
 
 ### To Do:
-- in show all post in admin, should group by categories
-- Add icon. Candidate is watari
+- Add error handling
 ### Bug:
 `;
 
@@ -69,11 +68,12 @@ export default function Index() {
       <Navbar />
       <Main>
         {/* The left side */}
-        <div className="hidden lg:flex flex flex-row w-2/5 text-center bg-gray-100 p-4 rounded-lg">
+        <div className="hidden md:flex flex flex-row w-2/5 text-center bg-gray-100 p-4 rounded-lg">
           <div className="w-full m-1">
             <Form method="post">
               {categories.map((category) => (
                 <Category
+                  key={category.slug}
                   title={category.title}
                   image={category.image}
                   slug={category.slug}
