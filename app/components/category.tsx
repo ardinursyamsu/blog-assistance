@@ -1,7 +1,6 @@
 export default function Category(props: any) {
   return (
     <button
-      key={props.slug}
       type="submit"
       name="category-slug"
       value={props.slug}

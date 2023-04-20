@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { getCategories } from "~/models/category.server";
 import type { ActionArgs } from "@remix-run/node";
 import { createPost } from "~/models/post.server";
+import { useState } from "react";
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
@@ -24,6 +25,16 @@ export const loader = async () => {
 
 export default function CreatePost() {
   const { categories } = useLoaderData<typeof loader>();
+  const [titleSlug, setTitleSlug] = useState("");
+
+  const handleTitleChange = (e: any) => {
+    const titleString = e.target.value;
+    setTitleSlug(titleString.replaceAll(" ", "-").toLowerCase());
+  };
+
+  const onTitleSlugChange = (e: any) => {
+    setTitleSlug(e.target.value);
+  };
   return (
     <form className="px-12 py-6" method="post">
       <div className="space-y-8">
@@ -42,6 +53,7 @@ export default function CreatePost() {
             name="title"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Input Title"
+            onChange={handleTitleChange}
             required
           />
         </div>
@@ -58,6 +70,8 @@ export default function CreatePost() {
               name="slug"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Insert Slug"
+              value={titleSlug}
+              onChange={onTitleSlugChange}
               required
             />
           </div>
@@ -74,7 +88,9 @@ export default function CreatePost() {
               name="category_slug"
             >
               {categories.map((category) => (
-                <option value={category.slug}>{category.title}</option>
+                <option key={category.slug} value={category.slug}>
+                  {category.title}
+                </option>
               ))}
             </select>
           </div>

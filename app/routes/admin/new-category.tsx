@@ -1,5 +1,6 @@
 import { ActionArgs, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
+import { useState } from "react";
 import { createCategory } from "~/models/category.server";
 
 export const action = async ({ request }: ActionArgs) => {
@@ -18,6 +19,16 @@ export default function NewCategory() {
   const decorator =
     "text-orange-400 hover:text-white border border-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-orange-300 dark:text-orange-300 dark:hover:text-white dark:hover:bg-orange-400 dark:focus:ring-orange-900";
 
+  const [categorySlug, setCategorySlug] = useState("");
+
+  const handleCategoryNameChange = (e: any) => {
+    const categoryString = e.target.value;
+    setCategorySlug(categoryString.replaceAll(" ", "-").toLowerCase());
+  };
+
+  const onCategorySlugChange = (e: any) => {
+    setCategorySlug(e.target.value);
+  };
   return (
     <Form className="px-12 py-6" method="post">
       <div className="space-y-8">
@@ -36,6 +47,7 @@ export default function NewCategory() {
             name="category_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Input Category Name"
+            onChange={handleCategoryNameChange}
             required
           />
         </div>
@@ -51,6 +63,8 @@ export default function NewCategory() {
             name="slug"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Input Slug"
+            value={categorySlug}
+            onChange={onCategorySlugChange}
             required
           />
         </div>

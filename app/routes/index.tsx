@@ -83,7 +83,7 @@ export default function Index() {
           </div>
           <div className={`${hidden} w-full m-1`}>
             {posts.map((post: any) => (
-              <Subcategory data={post} onclick={handleClick} />
+              <Subcategory key={post.id} data={post} onclick={handleClick} />
             ))}
           </div>
         </div>
