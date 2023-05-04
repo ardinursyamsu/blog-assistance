@@ -1,5 +1,3 @@
-import { FormStrategy } from "remix-auth-form";
-
 export class User {
   email: string;
   password: string;

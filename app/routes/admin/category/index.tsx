@@ -13,6 +13,7 @@ export default function Categories() {
     <div className="px-12 py-6">
       {categories.map((category) => (
         <ButtonCategory
+          key={category.slug}
           slug={category.slug}
           image={category.image}
           title={category.title}

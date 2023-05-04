@@ -15,7 +15,7 @@ export default function Post() {
   return (
     <div className="space-y-3">
       {categories.map((category) => (
-        <div>
+        <div key={category.slug}>
           <div className="bg-white w-full mx-3 p-4 rounded-md drop-shadow-lg	">
             <div className="font-medium font-sans text-xl mb-2">
               {category.title}

@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { LoaderArgs, json } from "@remix-run/node";
 import { marked } from "marked";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { getCategories } from "~/models/category.server";
@@ -11,6 +11,7 @@ import Navbar from "~/components/navbar";
 import { getPostsByCategory } from "~/models/post.server";
 import { useState } from "react";
 import Subcategory from "~/components/subcategory";
+import { authenticator } from "~/services/auth.server";
 
 const content_title = "Welcome to Blog-Assistance";
 const content = `
@@ -37,14 +38,16 @@ export const action = async ({ request }: ActionArgs) => {
   return json({ posts });
 };
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderArgs) => {
   const categories = await getCategories();
+  const auth = await authenticator.isAuthenticated(request);
+  const isAuth = !!auth;
 
-  return json({ categories });
+  return json({ categories, isAuth });
 };
 
 export default function Index() {
-  const { categories } = useLoaderData<typeof loader>();
+  const { categories, isAuth } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   var posts: any = [];
@@ -65,7 +68,7 @@ export default function Index() {
 
   return (
     <div className="flex flex-col h-screen">
-      <Navbar />
+      <Navbar isAuth={isAuth} />
       <Main>
         {/* The left side */}
         <div className="hidden md:flex flex flex-row w-2/5 text-center bg-gray-100 p-4 rounded-lg">
@@ -83,7 +86,7 @@ export default function Index() {
           </div>
           <div className={`${hidden} w-full m-1`}>
             {posts.map((post: any) => (
-              <Subcategory key={post.id} data={post} onclick={handleClick} />
+              <Subcategory key={post.slug} data={post} onclick={handleClick} />
             ))}
           </div>
         </div>

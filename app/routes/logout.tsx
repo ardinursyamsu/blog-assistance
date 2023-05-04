@@ -1,17 +1,6 @@
-import { ActionFunction } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import { ActionFunction, LoaderArgs } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 
-export const action: ActionFunction = async ({ request }) => {
-  await authenticator.logout(request, { redirectTo: "/test" });
+export const loader = async ({ request }: LoaderArgs) => {
+  await authenticator.logout(request, { redirectTo: "/" });
 };
-
-export default function DashboardPage() {
-  return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <Form method="post">
-        <button>Log Out</button>
-      </Form>
-    </div>
-  );
-}

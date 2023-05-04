@@ -14,7 +14,7 @@ authenticator.use(
     invariant(typeof email === "string", "Data must be string")
     let password = form.get("password");
     invariant(typeof password === "string", "Data must be string")
-    if (email !== "ardi@yahoo.com"){
+    if (email !== "ardi@yahoo.com" && password !== "12345"){
         throw new AuthorizationError("User is not authorized")
     }
     let user = login(email, password);

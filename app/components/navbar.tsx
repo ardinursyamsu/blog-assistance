@@ -1,17 +1,23 @@
-export default function Navbar() {
+export default function Navbar(props: any) {
+  const isAuth = props.isAuth;
   const dataTheme = "business";
   return (
     <div data-theme={dataTheme} className="navbar bg-base-100">
       <div className="flex-1">
         <a href="/" className="btn btn-ghost normal-case text-xl">
-          <img src="/logo.png" width="36" />{/*<div className="mx-2">Home</div>*/}
+          <img src="/logo.png" width="36" />
+          {/*<div className="mx-2">Home</div>*/}
         </a>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <a href="/admin">Admin</a>
-          </li>
+          {isAuth ? (
+            <li>
+              <a href="/admin">Admin</a>
+            </li>
+          ) : (
+            ""
+          )}
           {/*
           <li tabIndex={0}>
             <a>
@@ -35,9 +41,15 @@ export default function Navbar() {
               </li>
             </ul>
           </li>*/}
-          <li>
-            <a>Login</a>
-          </li>
+          {isAuth ? (
+            <li>
+              <a href="/logout">Logout</a>
+            </li>
+          ) : (
+            <li>
+              <a href="/login">Login</a>
+            </li>
+          )}
         </ul>
       </div>
     </div>

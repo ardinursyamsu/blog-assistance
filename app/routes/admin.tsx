@@ -1,13 +1,27 @@
-import { Link, Outlet } from "@remix-run/react";
+import { LoaderArgs, json, redirect } from "@remix-run/node";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
 import Footer from "~/components/footer";
 import Main from "~/components/main";
 import Navbar from "~/components/navbar";
+import { authenticator } from "~/services/auth.server";
 
-export default function Test() {
+export const loader = async ({ request }: LoaderArgs) => {
+  const auth = await authenticator.isAuthenticated(request);
+  const isAuth = !!auth;
+
+  if (!isAuth) {
+    return redirect("/login");
+  }
+
+  return json({ isAuth });
+};
+
+export default function Admin() {
+  const { isAuth } = useLoaderData<typeof loader>();
   return (
     <div className="flex flex-col h-screen">
-      <Navbar />
+      <Navbar isAuth={isAuth} />
       <Main>
         {/* The left side */}
         <div className="hidden sm:flex flex flex-column w-1/5 text-center bg-gray-100 p-4 rounded-lg">
