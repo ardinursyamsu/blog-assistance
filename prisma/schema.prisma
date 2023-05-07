@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Category {
-  title String
+  title String @db.Text()
   slug  String  @id @unique
   image String? @db.Text()
   Post  Post[]
@@ -22,11 +22,11 @@ model Category {
 }
 
 model Post {
-  title         String
+  title         String  @db.Text()
   slug          String   @id @unique
   category      Category @relation(fields: [category_slug], references: [slug])
-  category_slug String
-  markdown      String
+  category_slug String  
+  markdown      String  @db.Text()
 
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt

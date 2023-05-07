@@ -15,11 +15,7 @@ import { authenticator } from "~/services/auth.server";
 
 const content_title = "Welcome to Blog-Assistance";
 const content = `
-The long-term purpose of this project is to make an AI assistance in programming and whatsoever however this is just the prototype. Need more improvement in the future.
-
-### To Do:
-- Add error handling
-### Bug:
+The long-term purpose of this project is to make an AI assistance in programming and whatsoever however this is a continuous project. Need more improvement in the future.
 `;
 
 const subcategory = (
