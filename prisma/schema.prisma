@@ -6,14 +6,15 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider      = "mysql"
+  url           = env("DATABASE_URL")
+  relationMode  = "prisma"
 }
 
 model Category {
   title String
   slug  String  @id @unique
-  image String?
+  image String? @db.Text()
   Post  Post[]
 
   createdAt DateTime @default(now())
@@ -29,4 +30,6 @@ model Post {
 
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
+
+  @@index([category_slug])
 }
