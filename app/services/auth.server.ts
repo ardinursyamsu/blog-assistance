@@ -6,15 +6,20 @@ export let authenticator = new Authenticator<User>(sessionStorage);
 
 import { FormStrategy } from "remix-auth-form";
 import invariant from "tiny-invariant";
+import bcrypt from 'bcrypt';
 
 // Tell the Authenticator to use the form strategy
 authenticator.use(
   new FormStrategy(async ({ form }) => {
     let email = form.get("email");
     invariant(typeof email === "string", "Data must be string")
+
     let password = form.get("password");
     invariant(typeof password === "string", "Data must be string")
-    if (email !== process.env.EMAIL && password !== process.env.PASS){
+    const salt = bcrypt.genSaltSync(Number(process.env.SALT));
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    
+    if (email !== process.env.EMAIL && password !== process.env.HASH){
         throw new AuthorizationError("User is not authorized")
     }
     let user = login(email, password);
