@@ -12,6 +12,7 @@ import { getPostsByCategory } from "~/models/post.server";
 import { useState } from "react";
 import Subcategory from "~/components/subcategory";
 import { authenticator } from "~/services/auth.server";
+import markdownit from 'markdown-it';
 
 const content_title = "Welcome to Blog-Assistance";
 const content = `
@@ -45,6 +46,10 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function Index() {
   const { categories, isAuth } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+
+  const md = markdownit()
+  const mk = require('@iktakahiro/markdown-it-katex');
+  md.use(mk);
 
   var posts: any = [];
   var hidden = "hidden";
@@ -92,7 +97,7 @@ export default function Index() {
           <article className="prose max-w-none px-12">
             <div
               className="text-black text-justify"
-              dangerouslySetInnerHTML={{ __html: marked(markdown) }}
+              dangerouslySetInnerHTML={{ __html: md.render(markdown) }}
             />
           </article>
         </div>

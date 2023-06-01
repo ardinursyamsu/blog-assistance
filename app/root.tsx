@@ -12,6 +12,7 @@ import {
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
+  { rel: "stylesheet", href:"https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css"}
 ];
 
 export const meta: MetaFunction = () => ({
